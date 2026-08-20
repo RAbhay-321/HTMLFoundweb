@@ -1,0 +1,592 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhay's Website Foundation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #1c1e21;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #1e3c72;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s, color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #00d2ff;
+        }
+
+        nav ul li a.secret-nav-link {
+            opacity: 0.3;
+        }
+
+        nav ul li a.secret-nav-link:hover {
+            opacity: 1;
+            color: #25d366;
+        }
+
+        /* Animated Background Slideshow Header */
+        header {
+            position: relative;
+            height: 320px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+            overflow: hidden;
+        }
+
+        /* Background animation container */
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            animation: heroSlideshow 15s infinite;
+        }
+
+        /* Overlay to keep text readable over slideshow */
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 2;
+        }
+
+        header h1, header p {
+            position: relative;
+            z-index: 3;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+
+        /* Slideshow Keyframe Animation */
+        @keyframes heroSlideshow {
+            0%, 100% {
+                background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200');
+            }
+            33% {
+                background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200');
+            }
+            66% {
+                background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1200');
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            margin-bottom: 1.5rem;
+            color: #1e3c72;
+            border-bottom: 2px solid #1e3c72;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Grid Layout */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Floating Question Cards */
+        .question-card {
+            background: #ffffff;
+            border: 2px solid #2a5298;
+            border-radius: 12px;
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 140px;
+        }
+
+        .question-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            background-color: #f4f8ff;
+        }
+
+        .question-card h3 {
+            font-size: 1.1rem;
+            color: #1e3c72;
+        }
+
+        /* Full-Page Overlay for Answers */
+        .answer-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .answer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: #1e3c72;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            color: #1e3c72;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #2a5298;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Typewriter text formatting */
+        .typewriter-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #222222;
+            white-space: pre-line;
+            margin-bottom: 1rem;
+        }
+
+        /* Float-In Animation for Images and Video Buttons */
+        .float-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .float-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .img-box {
+            margin: 2rem 0;
+            text-align: center;
+            display: none;
+        }
+
+        .img-box img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .yt-btn {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #ff0000;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* About Us Info Card */
+        .info-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .info-card p {
+            margin-bottom: 0.6rem;
+            font-size: 1rem;
+        }
+
+        /* Secret Chat Box */
+        .chat-box {
+            background: #ffffff;
+            padding: 2rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            text-align: center;
+            width: 100%;
+        }
+
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            max-width: 320px;
+            margin: 1rem auto 0 auto;
+        }
+
+        .password-form input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .password-form input[type="password"]:focus {
+            border-color: #1e3c72;
+        }
+
+        .password-form button {
+            padding: 0.6rem 1.2rem;
+            background-color: #1e3c72;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .error-msg {
+            color: #d9534f;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .chat-content {
+            display: none;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background-color: #25d366;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: #1e3c72;
+            color: #ffffff;
+            margin-top: 3rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo" onclick="window.scrollTo(0,0)">Abhay's Foundation</div>
+        <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#secret-chat" class="secret-nav-link">Secret Chat</a></li>
+        </ul>
+    </nav>
+
+    <!-- Animated Background Slideshow Header -->
+    <header>
+        <h1>Welcome to My HTML Website Foundation</h1>
+        <p>A simple modern responsive HTML template</p>
+    </header>
+
+    <div class="container">
+
+        <!-- HOME SECTION QUESTION GRID -->
+        <h2 class="section-title">Home Knowledge Templates (Click Any Question)</h2>
+
+        <div class="template-grid">
+            <div class="question-card" onclick="openAnswer('q1')">
+                <h3>1. What is a html file?</h3>
+            </div>
+
+            <div class="question-card" onclick="openAnswer('q2')">
+                <h3>2. What is a html website?</h3>
+            </div>
+
+            <div class="question-card" onclick="openAnswer('q3')">
+                <h3>3. What is a Web Browser?</h3>
+            </div>
+
+            <div class="question-card" onclick="openAnswer('q4')">
+                <h3>4. What is 'WWW' (World Wide Web)?</h3>
+            </div>
+
+            <div class="question-card" onclick="openAnswer('q5')">
+                <h3>5. How grapix, html, www code is used in a web browser?</h3>
+            </div>
+
+            <div class="question-card" onclick="openAnswer('q6')">
+                <h3>6. Varities of Website:<br>i) Static...<br>ii) Dynamic...</h3>
+            </div>
+        </div>
+
+        <!-- ABOUT US SECTION -->
+        <h2 id="about" class="section-title">About Us</h2>
+        <div class="info-card">
+            <p><strong>Name:</strong> Abhay Halder</p>
+            <p><strong>Class:</strong> Class VIII</p>
+            <p><strong>School:</strong> SRKMHS</p>
+            <p><strong>Village:</strong> Subarnapur Coloney</p>
+            <p><strong>Police Station (P.S):</strong> Deganga</p>
+            <p><strong>Post Office (P.O):</strong> Chakla</p>
+            <p><strong>PIN Code:</strong> 743424</p>
+            <p><strong>District:</strong> North 24 Parganas (N. 24 Pgs.)</p>
+            <p><strong>Region:</strong> India</p>
+        </div>
+
+        <!-- SECRET CHAT SECTION -->
+        <h2 id="secret-chat" class="section-title">Secret Chat</h2>
+        <div class="chat-box">
+            <div id="lock-screen">
+                <p>🔒 <strong>This section is password protected.</strong></p>
+                <form class="password-form" onsubmit="unlockChat(event)">
+                    <input 
+                        type="password" 
+                        id="secretPass" 
+                        placeholder="Enter password..." 
+                        inputmode="text" 
+                        autocomplete="off" 
+                        required
+                    >
+                    <button type="submit">Unlock Chat</button>
+                    <span id="errorMsg" class="error-msg">Incorrect password. Please try again.</span>
+                </form>
+            </div>
+
+            <div id="unlocked-screen" class="chat-content">
+                <p>✅ <strong>Access Granted</strong></p>
+                <p style="color: #444; margin-top: 0.5rem;">
+                    <strong>Direct WhatsApp Phone No.:</strong> +91 9143333906
+                </p>
+                <a href="https://wa.me/919143333906" target="_blank" class="whatsapp-btn">💬 Chat Privately on WhatsApp</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FULL-PAGE OVERLAY FOR ANSWERS -->
+    <div id="answerOverlay" class="answer-overlay">
+        <div class="answer-content">
+            <button class="back-btn" onclick="closeAnswer()">&larr; Back to Home</button>
+            <h2 id="pageTitle" class="page-title"></h2>
+            
+            <p id="para1" class="typewriter-text"></p>
+            
+            <div id="imageBox" class="img-box float-in">
+                <img id="pageImage" src="" alt="Explanation Diagram">
+            </div>
+
+            <p id="para2" class="typewriter-text"></p>
+            
+            <a id="youtubeBtn" href="https://www.youtube.com" target="_blank" class="yt-btn float-in">Watch Tutorial Video on YouTube</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>Creators: Abhay Halder & myfriendGemini</p>
+    </footer>
+
+    <script>
+        const qData = {
+            'q1': {
+                title: '1. What is an HTML File?',
+                p1: 'An HTML file (HyperText Markup Language file) is a standard text file containing web code that defines the structure and layout of a web page.\n\n• It uses special labels called tags (such as <html>, <h1>, and <img>) to tell the web browser where to put text, headings, images, and links.',
+                img: 'https://via.placeholder.com/700x300?text=HTML+File+Structure+Diagram',
+                p2: '• HTML files are saved with a .html or .htm extension (for example, index.html).'
+            },
+            'q2': {
+                title: '2. What is an HTML Website?',
+                p1: 'An HTML Website is a collection of interconnected HTML web pages saved under a single domain name on the internet.\n\n• While a single .html file is just one web page, an entire website connects multiple HTML files using hyperlinks (clickable links).',
+                img: 'https://via.placeholder.com/700x300?text=HTML+Website+Structure+Diagram',
+                p2: '• It combines HTML structure with CSS (styling and design) and JavaScript (interactivity) to give visitors a complete online experience.'
+            },
+            'q3': {
+                title: '3. What is a Web Browser?',
+                p1: 'A Web Browser is a software application or app on your computer or smartphone that allows you to access, view, and navigate the internet.\n\n• How it works: It acts as a translator. When you open a website, the browser downloads raw code (HTML, CSS, JavaScript) from a remote web server and converts it into visually readable web pages, buttons, and graphics.',
+                img: 'https://via.placeholder.com/700x300?text=Web+Browser+Rendering+Engine',
+                p2: '• Examples: Google Chrome, Mozilla Firefox, Microsoft Edge, Apple Safari, and Opera.'
+            },
+            'q4': {
+                title: '4. What is "WWW" (World Wide Web)?',
+                p1: 'The World Wide Web (WWW) is a global collection of web pages, documents, images, and digital resources connected together by hyperlinks and accessed over the Internet.\n\n• Difference from the Internet: The Internet is the huge network of physical computers, servers, and cables connected globally. The World Wide Web is the service built on top of the internet that lets us view websites using URLs.',
+                img: 'https://via.placeholder.com/700x300?text=World+Wide+Web+Network+Diagram',
+                p2: '• Web pages on the WWW are transmitted securely using protocols like HTTP and HTTPS.'
+            },
+            'q5': {
+                title: '5. How Graphics, HTML, and WWW Code are Used in a Web Browser?',
+                p1: 'When you visit a website, all three elements work together in a step-by-step pipeline inside your browser:\n\n1. WWW (Networking): The web browser sends a request across the WWW network to download the HTML file and media assets from a web server.\n2. HTML (Structure): The browser reads the HTML code line-by-line to build the layout, organize paragraph text, set up buttons, and locate where images belong.',
+                img: 'https://via.placeholder.com/700x300?text=Graphics+and+HTML+Rendering+Pipeline',
+                p2: '3. Graphics (Rendering): The browser\'s rendering engine processes graphics (JPEGs, PNGs, SVG vectors, animations) and draws the final pixels onto your computer or phone display screen.'
+            },
+            'q6': {
+                title: '6. Varieties of Websites: Static vs. Dynamic Websites',
+                p1: 'i) Static Websites\n• Fixed Content: Every visitor sees the exact same content every time the page is loaded.\n• How it works: Built using simple, pre-written HTML, CSS, and basic JavaScript files stored directly on a server.\n• Best for: Portfolios, simple informational sites, school projects, or small business landing pages.',
+                img: 'https://via.placeholder.com/700x300?text=Static+vs+Dynamic+Architecture',
+                p2: 'ii) Dynamic Websites\n• Changing Content: Displays tailored content in real-time depending on who is viewing the site, their location, or their actions.\n• How it works: Uses databases and server code (like Python, PHP, or Node.js) to generate customized HTML pages on the fly.\n• Best for: Social media platforms (Facebook, Instagram), online shopping stores (Amazon), news portals, and streaming services (YouTube).',
+                yt: true
+            }
+        };
+
+        let activeTimer = null;
+
+        function openAnswer(key) {
+            const data = qData[key];
+            if (!data) return;
+
+            document.getElementById('pageTitle').innerText = data.title;
+            document.getElementById('para1').innerText = '';
+            document.getElementById('para2').innerText = '';
+
+            const imgBox = document.getElementById('imageBox');
+            const ytBtn = document.getElementById('youtubeBtn');
+
+            imgBox.style.display = 'none';
+            imgBox.classList.remove('visible');
+
+            ytBtn.style.display = 'none';
+            ytBtn.classList.remove('visible');
+
+            document.getElementById('answerOverlay').style.display = 'block';
+
+            // Typewriter Animation for Paragraph 1
+            typeWriter(data.p1, 'para1', 10, () => {
+                // Show Image and trigger Float-In animation
+                document.getElementById('pageImage').src = data.img;
+                imgBox.style.display = 'block';
+                setTimeout(() => imgBox.classList.add('visible'), 50);
+
+                // Typewriter Animation for Paragraph 2
+                typeWriter(data.p2, 'para2', 10, () => {
+                    if (data.yt) {
+                        ytBtn.style.display = 'inline-block';
+                        setTimeout(() => ytBtn.classList.add('visible'), 50);
+                    }
+                });
+            });
+        }
+
+        function typeWriter(text, elementId, speed, callback) {
+            let index = 0;
+            const element = document.getElementById(elementId);
+            if (activeTimer) clearInterval(activeTimer);
+
+            activeTimer = setInterval(() => {
+                if (index < text.length) {
+                    element.innerText += text.charAt(index);
+                    index++;
+                } else {
+                    clearInterval(activeTimer);
+                    if (callback) callback();
+                }
+            }, speed);
+        }
+
+        function closeAnswer() {
+            if (activeTimer) clearInterval(activeTimer);
+            document.getElementById('answerOverlay').style.display = 'none';
+        }
+
+        function unlockChat(event) {
+            event.preventDefault();
+            
+            const passInput = document.getElementById('secretPass');
+            passInput.blur();
+
+            if (passInput.value === '2012@bhay!') {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('unlocked-screen').style.display = 'block';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>

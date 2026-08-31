@@ -1,0 +1,1436 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhay's Cyber Foundation | Web Knowledge Hub</title>
+    <style>
+        /* CSS Variables - Cyber Dark Theme (Default) */
+        :root {
+            --bg-main: #0a0e17;
+            --bg-card: #131b2e;
+            --bg-nav: #080c14;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-glow: #00f2fe;
+            --accent-border: #1e3a8a;
+            --card-hover: #1e293b;
+            --shadow-color: rgba(0, 242, 254, 0.15);
+            --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* CSS Variables - Bright Day Theme with Triranga Float Motion */
+        body.day-mode {
+            --bg-main: #f8fafc;
+            --bg-card: rgba(255, 255, 255, 0.92);
+            --bg-nav: #1e3c72;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent-glow: #0284c7;
+            --accent-border: #cbd5e1;
+            --card-hover: rgba(255, 255, 255, 1);
+            --shadow-color: rgba(2, 132, 199, 0.15);
+            
+            /* Realistic Triranga Flag Waving in Wind */
+            background: 
+                linear-gradient(105deg, rgba(0,0,0,0) 0%, rgba(255,255,255,0.4) 25%, rgba(0,0,0,0.1) 50%, rgba(255,255,255,0.4) 75%, rgba(0,0,0,0) 100%),
+                linear-gradient(135deg, #FF9933 30%, #FFFFFF 30%, #FFFFFF 70%, #138808 70%);
+            background-size: 200% 200%, 300% 300%;
+            background-attachment: fixed;
+            animation: trirangaWind 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes trirangaWind {
+            0% { background-position: -100% 0%, 0% 0%; }
+            100% { background-position: 200% 0%, 100% 100%; }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header, .container, footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: var(--bg-nav);
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--accent-border);
+        }
+
+        nav .logo {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        nav ul li a.secret-nav-link {
+            color: #25d366;
+            opacity: 0.9;
+        }
+
+        .switches-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        /* Read Aloud Button */
+        .read-aloud-btn {
+            background: transparent;
+            border: 1px solid var(--accent-glow);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            cursor: pointer;
+            color: #fff;
+            transition: 0.3s;
+        }
+        
+        .read-aloud-btn:hover {
+            background: var(--accent-glow);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        /* Day / Night & Language Toggle Switch */
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 26px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #334155;
+            border-radius: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid var(--accent-glow);
+            color: #ffffff;
+            user-select: none;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #ffffff;
+            transition: 0.3s;
+            border-radius: 50%;
+            z-index: 2;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .lang-switch .slider {
+            background-color: #1e293b;
+            border-color: #25d366;
+        }
+
+        /* Hero Slideshow Header */
+        header {
+            height: 340px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 1rem;
+            overflow: hidden;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out, transform 6s ease-out;
+            transform: scale(1);
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1.04);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(10, 14, 23, 0.4) 0%, rgba(10, 14, 23, 0.85) 100%);
+            z-index: 2;
+        }
+
+        header h1, header p, header .device-badge {
+            position: relative;
+            z-index: 3;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            background: linear-gradient(90deg, #ffffff, var(--accent-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            font-size: 1.05rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            color: #e2e8f0;
+        }
+
+        .device-badge {
+            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--accent-glow);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(8px);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffffff;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .container {
+            max-width: 1040px;
+            margin: 2rem auto;
+            padding: 0 1.2rem;
+        }
+
+        .section-title {
+            margin-bottom: 1.5rem;
+            color: var(--accent-glow);
+            border-bottom: 2px solid var(--accent-border);
+            padding-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Card Styling for 3D Tilt */
+        .question-card, .info-card, .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            transform-style: preserve-3d;
+            will-change: transform, box-shadow;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+
+        .question-card {
+            padding: 1.8rem 1.4rem;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 140px;
+        }
+
+        .question-card h3 {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            font-weight: 600;
+            pointer-events: none;
+        }
+
+        /* Dynamic About Card */
+        .info-card {
+            position: relative;
+            padding: 2.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            touch-action: none;
+            cursor: grab;
+        }
+
+        .info-card:active {
+            cursor: grabbing;
+        }
+
+        #atomCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 1;
+            display: block;
+        }
+
+        .info-content {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .info-card p {
+            margin-bottom: 0.6rem;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .info-card strong {
+            color: var(--accent-glow);
+        }
+
+        .drag-hint {
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: var(--accent-glow);
+            display: inline-block;
+            background: rgba(0, 242, 254, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--accent-glow);
+        }
+
+        /* Overlay Answer Pages - Now translucent to see background motion! */
+        .answer-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(10, 14, 23, 0.85); /* Dark Mode Translucency */
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        body.day-mode .answer-overlay {
+            background-color: rgba(248, 250, 252, 0.85); /* Day Mode Translucency */
+        }
+
+        .answer-content {
+            max-width: 820px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .overlay-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--bg-card);
+            color: var(--accent-glow);
+            border: 1px solid var(--accent-border);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .page-title {
+            color: var(--accent-glow);
+            font-size: 1.75rem;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid var(--accent-border);
+            padding-bottom: 0.6rem;
+        }
+
+        .typewriter-box {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background-color: var(--accent-glow);
+            vertical-align: middle;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .media-container {
+            margin: 2rem 0;
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .img-box img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--accent-border);
+        }
+
+        .video-box {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid var(--accent-border);
+        }
+
+        .video-box iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 0;
+        }
+
+        .chat-box {
+            background: var(--bg-card);
+            border: 1px solid var(--accent-border);
+            padding: 1.8rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .password-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            max-width: 340px;
+            margin: 1.2rem auto 0 auto;
+        }
+
+        .password-form input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--accent-border);
+            border-radius: 6px;
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .password-form button {
+            padding: 0.7rem 1.5rem;
+            background: var(--accent-glow);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .unaccess-btn {
+            background: #ef4444;
+            color: #fff;
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .error-msg {
+            color: #ef4444;
+            font-size: 0.85rem;
+            display: none;
+        }
+
+        .chat-content { display: none; }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: var(--bg-nav);
+            color: var(--text-muted);
+            margin-top: 3rem;
+            border-top: 1px solid var(--accent-border);
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Background Stars (Slow Fall) -->
+    <canvas id="starsCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;"></canvas>
+    
+    <!-- Cursor Particle Trail (Cosmic Glow / Prism Splash) -->
+    <canvas id="trailCanvas" style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999; pointer-events:none;"></canvas>
+
+    <nav>
+        <div class="logo" id="navLogo" onclick="window.scrollTo(0,0)">Abhay's Foundation</div>
+        <div class="nav-controls">
+            <ul>
+                <li><a href="#about" id="navAbout">About Us</a></li>
+                <li><a href="#secret-chat" id="navSecret" class="secret-nav-link">Secret Chat</a></li>
+            </ul>
+            <div class="switches-group">
+                <button onclick="toggleReadAloud()" class="read-aloud-btn" id="btnSpeaker" title="Read Aloud Page">📢</button>
+                
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="themeToggle">
+                        <input type="checkbox" id="themeToggle" onchange="toggleSiteTheme(this)">
+                        <span class="slider">
+                            <span>🌙</span>
+                            <span>☀️</span>
+                        </span>
+                    </label>
+                </div>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch lang-switch" for="langToggle">
+                        <input type="checkbox" id="langToggle" onchange="toggleSiteLanguage(this)">
+                        <span class="slider">
+                            <span>EN</span>
+                            <span>BN</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div id="slide0" class="hero-slide active"></div>
+        <div id="slide1" class="hero-slide"></div>
+        <div id="slide2" class="hero-slide"></div>
+
+        <h1 id="heroTitle">Welcome to My HTML Website Foundation</h1>
+        <p id="heroSub">A simple modern responsive HTML template</p>
+        
+        <div class="device-badge">
+            <span class="status-dot"></span>
+            <span id="deviceScanner">Verifying Environment...</span>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <h2 class="section-title" id="secTitleKnowledge">⚡ Home Knowledge Templates (Click Any Question)</h2>
+        <div class="template-grid">
+            <div class="question-card" onclick="openAnswerPage('q1')"><h3 id="q1_card">1. What is an HTML file?</h3></div>
+            <div class="question-card" onclick="openAnswerPage('q2')"><h3 id="q2_card">2. What is an HTML website?</h3></div>
+            <div class="question-card" onclick="openAnswerPage('q3')"><h3 id="q3_card">3. What is a Web Browser?</h3></div>
+            <div class="question-card" onclick="openAnswerPage('q4')"><h3 id="q4_card">4. What is 'WWW' (World Wide Web)?</h3></div>
+            <div class="question-card" onclick="openAnswerPage('q5')"><h3 id="q5_card">5. How graphics, HTML, & WWW code work in a browser?</h3></div>
+            <div class="question-card" onclick="openAnswerPage('q6')"><h3 id="q6_card">6. Varieties of Website:<br>i) Static...<br>ii) Dynamic...</h3></div>
+        </div>
+
+        <h2 id="about" class="section-title"><span id="secTitleAbout">👤 About Us</span></h2>
+        <div class="info-card" id="infoCardContainer">
+            <canvas id="atomCanvas"></canvas>
+            <div class="info-content">
+                <p><strong id="lbl_name">Name:</strong> <span id="val_name">Abhay Halder</span></p>
+                <p><strong id="lbl_class">Class:</strong> <span id="val_class">Class VIII</span></p>
+                <p><strong id="lbl_school">School:</strong> <span id="val_school">SRKMHS</span></p>
+                <p><strong id="lbl_village">Village:</strong> <span id="val_village">Subarnapur Coloney</span></p>
+                <p><strong id="lbl_ps">Police Station (P.S):</strong> <span id="val_ps">Deganga</span></p>
+                <p><strong id="lbl_po">Post Office (P.O):</strong> <span id="val_po">Chakla</span></p>
+                <p><strong id="lbl_pin">PIN Code:</strong> 743424</p>
+                <p><strong id="lbl_dist">District:</strong> <span id="val_dist">North 24 Parganas (N. 24 Pgs.)</span></p>
+                <p><strong id="lbl_region">Region:</strong> <span id="val_region">India</span></p>
+
+                <div class="drag-hint" id="dragHint">👆 Drag with one finger / mouse to rotate 3D Atom view</div>
+            </div>
+        </div>
+
+        <h2 id="secret-chat" class="section-title"><span id="secTitleSecret">🔒 Secret Chat</span></h2>
+        <div class="chat-box">
+            <div id="lock-screen">
+                <p>🔒 <strong id="lbl_lockMessage">This section is password protected.</strong></p>
+                <form class="password-form" onsubmit="unlockSecretChat(event)">
+                    <input type="password" id="secretPass" placeholder="Enter password..." required>
+                    <button type="submit" id="btnUnlock">Unlock Chat</button>
+                    <span id="errorMsg" class="error-msg">Incorrect password. Please try again.</span>
+                </form>
+            </div>
+
+            <div id="unlocked-screen" class="chat-content">
+                <p>✅ <strong id="lbl_granted">Access Granted - Verified Developer Resources</strong></p>
+                <div class="links-grid">
+                    <a href="https://wa.me/919143333906" target="_blank" class="link-card" id="lnk_wa">💬 Direct WhatsApp Chat</a>
+                    <a href="https://www.w3schools.com/html/" target="_blank" class="link-card">📚 W3Schools HTML Tutorial</a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" class="link-card">🌐 MDN Web Docs (HTML5)</a>
+                    <a href="https://www.youtube.com/results?search_query=html+web+development+tutorial" target="_blank" class="link-card" id="lnk_yt">▶️ Programming Tutorials</a>
+                    <a href="https://github.com/" target="_blank" class="link-card" id="lnk_gh">🐙 GitHub Code Repository</a>
+                    <a href="https://vscode.dev/" target="_blank" class="link-card" id="lnk_vs">💻 Online VS Code Editor</a>
+                    <a href="https://stackoverflow.com/questions/tagged/html" target="_blank" class="link-card" id="lnk_so">❓ Stack Overflow Support</a>
+                </div>
+                <button type="button" class="unaccess-btn" id="btnRelock" onclick="lockSecretChat()">🔒 Relock Access</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ANSWER OVERLAY -->
+    <div id="answerOverlay" class="answer-overlay">
+        <div class="answer-content">
+            <div class="overlay-controls">
+                <button class="back-btn" id="btnBack" onclick="closeAnswerOverlay()">&larr; Back to Home</button>
+                <button onclick="toggleReadAloud()" class="read-aloud-btn" id="btnSpeakerOverlay" title="Read Aloud Answer">📢</button>
+            </div>
+            
+            <h2 id="pageTitle" class="page-title"></h2>
+            <div class="typewriter-box">
+                <span id="typewriterText1"></span><span id="cursor1" class="typewriter-cursor"></span>
+            </div>
+            <div class="media-container">
+                <div class="img-box"><img id="verifiedImage" src="" alt="Chrome Verified Visual Diagram"></div>
+                <div class="video-box"><iframe id="verifiedVideo" src="" allowfullscreen></iframe></div>
+            </div>
+            <div class="typewriter-box">
+                <span id="typewriterText2"></span><span id="cursor2" class="typewriter-cursor"></span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p id="footerText">Creators: Abhay Halder & myfriendGemini</p>
+    </footer>
+
+    <script>
+        let currentLang = 'EN';
+
+        /* Language Dictionaries */
+        const translations = {
+            EN: {
+                navLogo: "Abhay's Foundation",
+                navAbout: "About Us",
+                navSecret: "Secret Chat",
+                heroTitle: "Welcome to My HTML Website Foundation",
+                heroSub: "A simple modern responsive HTML template",
+                secTitleKnowledge: "⚡ Home Knowledge Templates (Click Any Question)",
+                q1_card: "1. What is an HTML file?",
+                q2_card: "2. What is an HTML website?",
+                q3_card: "3. What is a Web Browser?",
+                q4_card: "4. What is 'WWW' (World Wide Web)?",
+                q5_card: "5. How graphics, HTML, & WWW code work in a browser?",
+                q6_card: "6. Varieties of Website:<br>i) Static...<br>ii) Dynamic...",
+                secTitleAbout: "👤 About Us",
+                lbl_name: "Name:", val_name: "Abhay Halder",
+                lbl_class: "Class:", val_class: "Class VIII",
+                lbl_school: "School:", val_school: "SRKMHS",
+                lbl_village: "Village:", val_village: "Subarnapur Coloney",
+                lbl_ps: "Police Station (P.S):", val_ps: "Deganga",
+                lbl_po: "Post Office (P.O):", val_po: "Chakla",
+                lbl_pin: "PIN Code:",
+                lbl_dist: "District:", val_dist: "North 24 Parganas (N. 24 Pgs.)",
+                lbl_region: "Region:", val_region: "India",
+                dragHint: "👆 Drag with one finger / mouse to rotate 3D Atom view",
+                secTitleSecret: "🔒 Secret Chat",
+                lbl_lockMessage: "This section is password protected.",
+                passPlaceholder: "Enter password...",
+                btnUnlock: "Unlock Chat",
+                errMsg: "Incorrect password. Please try again.",
+                lbl_granted: "Access Granted - Verified Developer Resources",
+                lnk_wa: "💬 Direct WhatsApp Chat",
+                lnk_yt: "▶️ Programming Tutorials",
+                lnk_gh: "🐙 GitHub Code Repository",
+                lnk_vs: "💻 Online VS Code Editor",
+                lnk_so: "❓ Stack Overflow Support",
+                btnRelock: "🔒 Relock Access",
+                btnBack: "← Back to Home",
+                footerText: "Creators: Abhay Halder & myfriendGemini"
+            },
+            BN: {
+                navLogo: "অভয়ের ফাউন্ডেশন",
+                navAbout: "আমাদের সম্পর্কে",
+                navSecret: "সিক্রেট চ্যাট",
+                heroTitle: "আমার এইচটিএমএল (HTML) ওয়েবসাইটে স্বাগতম",
+                heroSub: "একটি সহজ আধুনিক রেসপন্সিভ ওয়েব টেমপ্লেট",
+                secTitleKnowledge: "⚡ হোম নলেজ টেমপ্লেট (যে কোনো প্রশ্নে ক্লিক করুন)",
+                q1_card: "১. এইচটিএমএল (HTML) ফাইল কি?",
+                q2_card: "২. এইচটিএমএল (HTML) ওয়েবসাইট কি?",
+                q3_card: "৩. ওয়েব ব্রাউজার (Web Browser) কি?",
+                q4_card: "৪. 'WWW' (ওয়ার্ল্ড ওয়াইড ওয়েব) কি?",
+                q5_card: "৫. গ্রাফিক্স, HTML এবং WWW ব্রাউজারে কীভাবে কাজ করে?",
+                q6_card: "৬. ওয়েবসাইটের প্রকারভেদ:<br>i) স্ট্যাটিক...<br>ii) ডাইনামিক...",
+                secTitleAbout: "👤 আমাদের সম্পর্কে",
+                lbl_name: "নাম:", val_name: "অভয় হালদার",
+                lbl_class: "শ্রেণী:", val_class: "অষ্টম শ্রেণী",
+                lbl_school: "বিদ্যালয়:", val_school: "এস.আর.কে.এম.এইচ.এস (SRKMHS)",
+                lbl_village: "গ্রাম:", val_village: "সুবর্ণপুর কলোনী",
+                lbl_ps: "থানা (P.S):", val_ps: "দেগঙ্গা",
+                lbl_po: "পোস্ট অফিস (P.O):", val_po: "চাকলা",
+                lbl_pin: "পিন কোড:",
+                lbl_dist: "জেলা:", val_dist: "উত্তর ২৪ পরগণা (N. 24 Pgs.)",
+                lbl_region: "দেশ:", val_region: "ভারত",
+                dragHint: "👆 ৩ডি (3D) পরমাণু ঘোরাতে এক আঙুল বা মাউস দিয়ে টানুন (Drag)",
+                secTitleSecret: "🔒 সিক্রেট চ্যাট",
+                lbl_lockMessage: "এই সেকশনটি পাসওয়ার্ড দিয়ে সুরক্ষিত।",
+                passPlaceholder: "পাসওয়ার্ড দিন...",
+                btnUnlock: "চ্যাট আনলক করুন",
+                errMsg: "ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।",
+                lbl_granted: "অ্যাক্সেস অনুমোদিত - যাচাইকৃত ডেভেলপার রিসোর্স",
+                lnk_wa: "💬 সরাসরি হোয়াটসঅ্যাপ চ্যাট",
+                lnk_yt: "▶️ প্রোগ্রামিং টিউটোরিয়াল",
+                lnk_gh: "🐙 গিটহাব কোড রিপোজিটরি",
+                lnk_vs: "💻 অনলাইন ভিজ্যুয়াল স্টুডিও কোড",
+                lnk_so: "❓ স্ট্যাক ওভারফ্লো সাপোর্ট",
+                btnRelock: "🔒 পুনরায় লক করুন",
+                btnBack: "← হোমে ফিরে যান",
+                footerText: "নির্মাতা: অভয় হালদার এবং মাইফ্রেন্ড জেমিনি"
+            }
+        };
+
+        /* 1. Device Environment Detector */
+        function detectEnvironment() {
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const isChrome = /Chrome/i.test(navigator.userAgent) && !/Edge|Edg/i.test(navigator.userAgent);
+            if(currentLang === 'BN') {
+                document.getElementById('deviceScanner').innerText = `${isAndroid ? "অ্যান্ড্রয়েড মোবাইল" : "ডেস্কটপ পিসি"} • ${isChrome ? "ক্রোম ভেরিফাইড" : "ব্রাউজার শেনাক্ত করা হয়েছে"}`;
+            } else {
+                document.getElementById('deviceScanner').innerText = `${isAndroid ? "Android Mobile" : "Desktop PC"} • ${isChrome ? "Chrome Verified" : "Browser Detected"}`;
+            }
+        }
+
+        /* 2. Language Toggle Function */
+        function toggleSiteLanguage(checkbox) {
+            currentLang = checkbox.checked ? 'BN' : 'EN';
+            const lang = translations[currentLang];
+            
+            window.speechSynthesis.cancel();
+            document.getElementById('btnSpeaker').innerText = "📢";
+            document.getElementById('btnSpeakerOverlay').innerText = "📢";
+
+            for (let key in lang) {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (key === 'passPlaceholder') {
+                        element.placeholder = lang[key];
+                    } else if (key.includes('_card')) {
+                        element.innerHTML = lang[key];
+                    } else {
+                        element.innerText = lang[key];
+                    }
+                }
+            }
+            detectEnvironment();
+
+            if (activeQuestionKey && document.getElementById('answerOverlay').style.display === 'block') {
+                openAnswerPage(activeQuestionKey);
+            }
+        }
+
+        /* 3. Dynamic Hero Slideshow */
+        const cyberNightImages = [
+            'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1400&q=80',
+            'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=80',
+            'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1400&q=80'
+        ];
+        const dayRoadImages = [
+            'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400&q=80',
+            'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1400&q=80',
+            'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=1400&q=80'
+        ];
+
+        let currentImageSet = cyberNightImages;
+        let currentSlideIndex = 0;
+        let slideshowTimer = null;
+
+        function updateSlideImages() {
+            for (let i = 0; i < 3; i++) {
+                document.getElementById(`slide${i}`).style.backgroundImage = `url('${currentImageSet[i]}')`;
+            }
+        }
+
+        function cycleSlideshow() {
+            const slideElems = [document.getElementById('slide0'), document.getElementById('slide1'), document.getElementById('slide2')];
+            slideElems[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % 3;
+            slideElems[currentSlideIndex].classList.add('active');
+        }
+
+        function startSlideshow() {
+            updateSlideImages();
+            if (slideshowTimer) clearInterval(slideshowTimer);
+            slideshowTimer = setInterval(cycleSlideshow, 4500);
+        }
+
+        function toggleSiteTheme(checkbox) {
+            if (checkbox.checked) {
+                document.body.classList.add('day-mode');
+                currentImageSet = dayRoadImages;
+            } else {
+                document.body.classList.remove('day-mode');
+                currentImageSet = cyberNightImages;
+            }
+            startSlideshow();
+        }
+
+        /* 4. True 3D Interactive Orbiting Atom Model (UPDATED FOR TEXT & DAY MODE) */
+        const canvas = document.getElementById('atomCanvas');
+        const ctx = canvas.getContext('2d');
+        const infoCard = document.getElementById('infoCardContainer');
+
+        let rotX = 0.4;
+        let rotY = 0.6;
+        let isDragging = false;
+        let lastMouseX = 0;
+        let lastMouseY = 0;
+        let electronAngle = 0;
+
+        function resizeCanvas() {
+            if (canvas && infoCard) {
+                canvas.width = infoCard.clientWidth;
+                canvas.height = infoCard.clientHeight;
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        function startDrag(e) {
+            isDragging = true;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            lastMouseX = clientX;
+            lastMouseY = clientY;
+        }
+
+        function moveDrag(e) {
+            if (!isDragging) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const deltaX = clientX - lastMouseX;
+            const deltaY = clientY - lastMouseY;
+            rotY += deltaX * 0.008;
+            rotX += deltaY * 0.008;
+            lastMouseX = clientX;
+            lastMouseY = clientY;
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        infoCard.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', moveDrag);
+        window.addEventListener('mouseup', stopDrag);
+        infoCard.addEventListener('touchstart', startDrag, { passive: true });
+        window.addEventListener('touchmove', moveDrag, { passive: true });
+        window.addEventListener('touchend', stopDrag);
+
+        function project3D(x, y, z, centerX, centerY) {
+            let cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+            let x1 = x * cosY + z * sinY;
+            let z1 = -x * sinY + z * cosY;
+            let cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+            let y2 = y * cosX - z1 * sinX;
+            let z2 = y * sinX + z1 * cosX;
+            let perspective = 500 / (500 + z2);
+            return { px: centerX + x1 * perspective, py: centerY + y2 * perspective, scale: perspective, z: z2 };
+        }
+
+        function drawAtom3D() {
+            if (!canvas) {
+                requestAnimationFrame(drawAtom3D);
+                return;
+            }
+            
+            // NOW RUNS IN DAY MODE TOO!
+            const isDay = document.body.classList.contains('day-mode');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(centerX, centerY) * 0.75;
+
+            const orbits = [
+                { tiltX: 0, tiltY: 0, color: '#00f2fe' },
+                { tiltX: Math.PI / 3, tiltY: Math.PI / 6, color: '#38bdf8' },
+                { tiltX: -Math.PI / 3, tiltY: -Math.PI / 6, color: '#818cf8' },
+                { tiltX: Math.PI / 2, tiltY: Math.PI / 4, color: '#4ade80' }
+            ];
+            
+            const electronLabels = ['Java+', '>/<', 'www', '🌎'];
+
+            electronAngle += 0.02;
+
+            // DRAW NUCLEUS
+            const nucleus = project3D(0, 0, 0, centerX, centerY);
+            ctx.beginPath();
+            ctx.arc(nucleus.px, nucleus.py, 22 * nucleus.scale, 0, Math.PI * 2);
+            ctx.fillStyle = isDay ? '#ffffff' : '#00f2fe';
+            ctx.shadowBlur = 20 * nucleus.scale;
+            ctx.shadowColor = isDay ? '#0000ff' : '#00f2fe'; // Blue Shadow in Day Mode
+            ctx.fill();
+            
+            // DRAW NUCLEUS TEXT
+            ctx.shadowBlur = 0; // Turn off shadow so text is crisp
+            ctx.fillStyle = '#000000';
+            ctx.font = `bold ${11 * nucleus.scale}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText("HTML", nucleus.px, nucleus.py);
+
+            orbits.forEach((orbit, idx) => {
+                const points = [];
+                const segments = 60;
+                for (let i = 0; i <= segments; i++) {
+                    let theta = (i / segments) * Math.PI * 2;
+                    let lx = Math.cos(theta) * radius;
+                    let ly = Math.sin(theta) * radius * 0.4;
+                    let lz = 0;
+                    let rx = lx;
+                    let ry = ly * Math.cos(orbit.tiltX) - lz * Math.sin(orbit.tiltX);
+                    let rz = ly * Math.sin(orbit.tiltX) + lz * Math.cos(orbit.tiltX);
+                    let rx2 = rx * Math.cos(orbit.tiltY) + rz * Math.sin(orbit.tiltY);
+                    let ry2 = ry;
+                    let rz2 = -rx * Math.sin(orbit.tiltY) + rz * Math.cos(orbit.tiltY);
+                    points.push(project3D(rx2, ry2, rz2, centerX, centerY));
+                }
+
+                // ORBIT STRINGS
+                ctx.beginPath();
+                for (let i = 0; i < points.length; i++) {
+                    if (i === 0) ctx.moveTo(points[i].px, points[i].py);
+                    else ctx.lineTo(points[i].px, points[i].py);
+                }
+                // Convert string to light black in day mode
+                ctx.strokeStyle = isDay ? 'rgba(0, 0, 0, 0.4)' : orbit.color;
+                ctx.lineWidth = 1.5;
+                ctx.globalAlpha = 0.45;
+                ctx.stroke();
+                ctx.globalAlpha = 1.0;
+
+                let currentAngle = electronAngle + (idx * Math.PI) / 2;
+                let elX = Math.cos(currentAngle) * radius;
+                let elY = Math.sin(currentAngle) * radius * 0.4;
+                let elZ = 0;
+                let erx = elX;
+                let ery = elY * Math.cos(orbit.tiltX) - elZ * Math.sin(orbit.tiltX);
+                let erz = elY * Math.sin(orbit.tiltX) + elZ * Math.cos(orbit.tiltX);
+                let erx2 = erx * Math.cos(orbit.tiltY) + erz * Math.sin(orbit.tiltY);
+                let ery2 = ery;
+                let erz2 = -erx * Math.sin(orbit.tiltY) + erz * Math.cos(orbit.tiltY);
+                let electron = project3D(erx2, ery2, erz2, centerX, centerY);
+
+                // DRAW ELECTRON
+                ctx.beginPath();
+                ctx.arc(electron.px, electron.py, 15 * electron.scale, 0, Math.PI * 2);
+                ctx.fillStyle = isDay ? '#ffffff' : orbit.color;
+                ctx.shadowBlur = 15 * electron.scale;
+                ctx.shadowColor = isDay ? '#0000ff' : orbit.color; // Blue Shadow in Day Mode
+                ctx.fill();
+                
+                // DRAW ELECTRON TEXT
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#000000';
+                let fontSize = (idx === 3) ? 14 : 9; // Globe emoji needs a slightly bigger font size
+                ctx.font = `bold ${fontSize * electron.scale}px sans-serif`;
+                ctx.fillText(electronLabels[idx], electron.px, electron.py);
+            });
+            requestAnimationFrame(drawAtom3D);
+        }
+
+        /* 5. Bilingual Data & Typewriter Overlay */
+        const qData = {
+            'q1': {
+                EN: {
+                    title: '1. What is an HTML File?',
+                    p1: "An HTML file (HyperText Markup Language file) is a plain text document containing specific structured markup code that tells web browsers how to format, organize, and structure content on a webpage.\n\n• Core Function: HTML uses markup elements known as tags (such as <html>, <h1>, <p>, and <img>) to define headings, paragraphs, bullet points, structural containers, and image embeds.\n\n• Document Tree: Browsers process HTML source code into a logical structure called the Document Object Model (DOM).",
+                    p2: "• Universal Standard: Every web page across the World Wide Web relies on HTML as its core structural skeleton.\n\n• Plaintext Editing: It can be constructed in standard text editors like Notepad or advanced environments like VS Code."
+                },
+                BN: {
+                    title: '১. এইচটিএমএল (HTML) ফাইল কি?',
+                    p1: "এইচটিএমএল ফাইল (HyperText Markup Language file) হলো একটি সাধারণ টেক্সট ফাইল যা বিশেষ মার্কআপ কোড ধারণ করে। এটি ব্রাউজারকে নির্দেশ দেয় কিভাবে একটি ওয়েবপেজের তথ্য সাজাতে ও প্রদর্শন করতে হবে।\n\n• মূল কাজ: এইচটিএমএল বিভিন্ন ট্যাগ (যেমন <html>, <h1>, <p>, <img>) ব্যবহার করে লেখা, ছবি ও কন্টেন্ট সাজায়।\n\n• ডকুমেন্ট ট্রি: ব্রাউজার এই এইচটিএমএল কোডটিকে পড়ে Document Object Model (DOM) এ রূপান্তর করে।",
+                    p2: "• আন্তর্জাতিক মান: পৃথিবীর সমস্ত ওয়েবসাইট এইচটিএমএল-এর কাঠামোর উপর তৈরি।\n\n• এডিটিং: এটি নটপ্যাড (Notepad) বা VS Code-এর মতো যেকোনো টেক্সট এডিটর দিয়ে সহজেই তৈরি করা যায়।"
+                },
+                img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/MDLn5-zSQQI"
+            },
+            'q2': {
+                EN: {
+                    title: '2. What is an HTML Website?',
+                    p1: "An HTML Website is a structured, interlinked collection of individual HTML documents hosted under a common domain name on a web server.\n\n• The Web Triad: Modern web frontend combines 3 essential technologies:\n  1. HTML for structural page scaffolding.\n  2. CSS for layout styling, responsive colors, and grids.\n  3. JavaScript for dynamic behavior and logic.",
+                    p2: "• Navigation: Pages connect seamlessly using anchor tags (<a href='...'>) enabling multi-page web surfing."
+                },
+                BN: {
+                    title: '২. এইচটিএমএল (HTML) ওয়েবসাইট কি?',
+                    p1: "একটি এইচটিএমএল ওয়েবসাইট হলো একাধিক সংযুক্ত এইচটিএমএল পেজের সমষ্টি, যা একটি ডোমেইন নামের অধীনে ওয়েব সার্ভারে সংরক্ষিত থাকে।\n\n• ওয়েব টেকনোলজি ৩টি উপাদান নিয়ে গঠিত:\n  ১. HTML: কাঠামোগত লেআউট বা স্কেলিটন তৈরির জন্য।\n  ২. CSS: রঙ, ডিজাইন ও রেসপন্সিভ স্টাইলিংয়ের জন্য।\n  ৩. JavaScript: ওয়েবসাইটে ইন্টারেক্টিভ আচরণ যুক্ত করতে।",
+                    p2: "• নেভিগেশন: একটি পেজ থেকে অন্য পেজে যাওয়ার জন্য লিঙ্ক ট্যাগ (<a href='...'>) ব্যবহৃত হয়।"
+                },
+                img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/pQN-pnXPaVg"
+            },
+            'q3': {
+                EN: {
+                    title: '3. What is a Web Browser?',
+                    p1: "A Web Browser is a software application installed on user devices (desktop or mobile) that retrieves, renders, and displays HTML markup code from web servers.\n\n• Rendering Engines: Browsers use rendering engines (like Chrome's Blink engine) to turn HTML, CSS, and JS code into visual web interfaces.",
+                    p2: "• Examples: Google Chrome, Mozilla Firefox, Microsoft Edge, and Apple Safari."
+                },
+                BN: {
+                    title: '৩. ওয়েব ব্রাউজার (Web Browser) কি?',
+                    p1: "ওয়েব ব্রাউজার হলো এমন একটি সফটওয়্যার বা অ্যাপ যা ইন্টারনেট থেকে এইচটিএমএল কোড ও তথ্য এনে ব্যবহারকারীর স্ক্রিনে দৃশ্যমান ওয়েবসাইট আকারে প্রদর্শন করে।\n\n• রেন্ডারিং ইঞ্জিন: ব্রাউজার একটি নিজস্ব ইঞ্জিন (যেমন ক্রোম-এর Blink ইঞ্জিন) ব্যবহার করে কোডকে ভিজ্যুয়াল পেজে রূপান্তর করে।",
+                    p2: "• উদাহরণ: Google Chrome, Mozilla Firefox, Microsoft Edge, এবং Apple Safari।"
+                },
+                img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/WjDrMKzwCt0"
+            },
+            'q4': {
+                EN: {
+                    title: '4. What is "WWW" (World Wide Web)?',
+                    p1: "The World Wide Web (WWW) is an interconnected global information system of public web pages accessible via the internet using HTTP/HTTPS protocols.\n\n• Internet vs Web:\n  - Internet = Physical hardware network cables and servers.\n  - WWW = Content and websites hosted across that hardware network.",
+                    p2: "• Invention: Founded by Tim Berners-Lee in 1989 to connect global hyperlinked text documents."
+                },
+                BN: {
+                    title: '৪. "WWW" (ওয়ার্ল্ড ওয়াইড ওয়েব) কি?',
+                    p1: "ওয়ার্ল্ড ওয়াইড ওয়েব (WWW) হলো বিশ্বজুড়ে ছড়িয়ে থাকা ইন্টারনেট সংযুক্ত তথ্য ভাণ্ডার যা HTTP/HTTPS প্রোটোকল দ্বারা অ্যাক্সেস করা জানালা।\n\n• ইন্টারনেট এবং WWW-এর পার্থক্য:\n  - ইন্টারনেট = নেটওয়ার্কের ভৌত অবকাঠামো ও সার্ভার সংযোগ।\n  - WWW = উক্ত সংযোগের মাধ্যমে দৃশ্যমান ওয়েবসাইট ও কন্টেন্ট।",
+                    p2: "• আবিষ্কার: ১৯৮৯ সালে স্যার টিম বার্নার্স-লি ওয়ার্ল্ড ওয়াইড ওয়েব উদ্ভাবন করেন।"
+                },
+                img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/J8hzJxb0rpc"
+            },
+            'q5': {
+                EN: {
+                    title: '5. How Graphics, HTML, & WWW Work in a Browser?',
+                    p1: "1. Network Fetch: Browser requests HTML and media assets via WWW network protocols.\n2. DOM Parsing: Browser builds structural DOM tree line-by-line.\n3. Styling & Scripting: CSS styles visual positions while JavaScript handles user actions.",
+                    p2: "4. GPU Painting: Pixels and graphics are hardware rendered directly onto your smartphone or desktop screen."
+                },
+                BN: {
+                    title: '৫. গ্রাফিক্স, HTML এবং WWW ব্রাউজারে কীভাবে কাজ করে?',
+                    p1: "১. নেটওয়ার্ক ফেচ: ব্রাউজার WWW নেটওয়ার্কের সাহায্যে সার্ভার থেকে এইচটিএমএল ফাইল এনে ডাটা প্রসেস করে।\n২. DOM পার্সিং: ব্রাউজার কোডের লাইনগুলি রূপান্তর করে একটি DOM স্ট্রাকচার তৈরি করে।\n৩. স্টাইলিং ও স্ক্রিপ্টিং: CSS রূপ প্রদান করে এবং JavaScript ইন্টারঅ্যাকশন নিয়ন্ত্রণ করে।",
+                    p2: "৪. GPU পেইন্টিং: সবশেষে গ্রাফিক্স এবং কোড স্ক্রিনে সুন্দর পিক্সেল আকারে দৃশ্যমান হয়।"
+                },
+                img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/gT0Lh1Eaac8"
+            },
+            'q6': {
+                EN: {
+                    title: '6. Varieties of Websites: Static vs. Dynamic',
+                    p1: "• Static Websites: Pre-built HTML/CSS pages stored on a server that look identical for all visitors.\n• Dynamic Websites: Pages generated in real-time using databases and server scripts tailored specifically for each user.",
+                    p2: "• Static sites load quickly with simple code, while Dynamic sites handle accounts, comments, and database queries."
+                },
+                BN: {
+                    title: '৬. ওয়েবসাইটের প্রকারভেদ: স্ট্যাটিক বনাম ডাইনামিক',
+                    p1: "• স্ট্যাটিক ওয়েবসাইট (Static): পূর্বে থেকে তৈরি স্থির পেজ যা সকল ভিজিটরের জন্য একই থাকে।\n• ডাইনামিক ওয়েবসাইট (Dynamic): যা ডাটাবেস ইন্টারনেট সংযোগ এবং সার্ভার স্ক্রিপ্ট ব্যবহার করে ব্যবহারকারী ভেদে তাৎক্ষণিকভাবে তৈরি হয়।",
+                    p2: "• স্ট্যাটিক ওয়েবসাইট দ্রুত লোড হয়, আর ডাইনামিক ওয়েবসাইটে ইউজার লগইন ও ডাটাবেসের সুবিধা থাকে।"
+                },
+                img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+                video: "https://www.youtube-nocookie.com/embed/d3jXOfa184c"
+            }
+        };
+
+        let activeQuestionKey = null;
+        let typeTimer1, typeTimer2;
+
+        function runTypewriter(elementId, cursorId, text, speed, callback) {
+            let index = 0;
+            const container = document.getElementById(elementId);
+            const cursor = document.getElementById(cursorId);
+            container.innerText = "";
+            cursor.style.display = "inline-block";
+
+            function typeChar() {
+                if (index < text.length) {
+                    container.innerText += text.charAt(index);
+                    index++;
+                    typeTimer1 = setTimeout(typeChar, speed);
+                } else {
+                    cursor.style.display = "none";
+                    if (callback) callback();
+                }
+            }
+            typeChar();
+        }
+
+        function openAnswerPage(key) {
+            activeQuestionKey = key;
+            const data = qData[key];
+            if (!data) return;
+
+            const langContent = data[currentLang];
+
+            clearTimeout(typeTimer1);
+            clearTimeout(typeTimer2);
+
+            document.getElementById('pageTitle').innerText = langContent.title;
+            document.getElementById('verifiedImage').src = data.img;
+            document.getElementById('verifiedVideo').src = data.video;
+            document.getElementById('answerOverlay').style.display = 'block';
+
+            runTypewriter('typewriterText1', 'cursor1', langContent.p1, 12, () => {
+                runTypewriter('typewriterText2', 'cursor2', langContent.p2, 12, null);
+            });
+        }
+
+        function closeAnswerOverlay() {
+            activeQuestionKey = null;
+            clearTimeout(typeTimer1);
+            clearTimeout(typeTimer2);
+            document.getElementById('verifiedVideo').src = "";
+            document.getElementById('answerOverlay').style.display = 'none';
+            
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+                document.getElementById('btnSpeaker').innerText = "📢";
+                document.getElementById('btnSpeakerOverlay').innerText = "📢";
+            }
+        }
+
+        /* 6. Password Lock Control */
+        function unlockSecretChat(e) {
+            e.preventDefault();
+            if (document.getElementById('secretPass').value === '2012@bhay!') {
+                document.getElementById('errorMsg').style.display = 'none';
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('unlocked-screen').style.display = 'block';
+            } else {
+                document.getElementById('errorMsg').innerText = translations[currentLang].errMsg;
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        function lockSecretChat() {
+            document.getElementById('secretPass').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            document.getElementById('unlocked-screen').style.display = 'none';
+            document.getElementById('lock-screen').style.display = 'block';
+        }
+
+        /* 7. Read Aloud System */
+        function toggleReadAloud() {
+            const synth = window.speechSynthesis;
+            const btnMain = document.getElementById('btnSpeaker');
+            const btnOverlay = document.getElementById('btnSpeakerOverlay');
+
+            const syncButtons = (icon) => {
+                if (btnMain) btnMain.innerText = icon;
+                if (btnOverlay) btnOverlay.innerText = icon;
+            };
+
+            if (synth.speaking) {
+                synth.cancel();
+                syncButtons("📢");
+                return;
+            }
+
+            syncButtons("🛑"); 
+
+            let textToRead = "";
+            if (document.getElementById('answerOverlay').style.display === 'block') {
+                textToRead += document.getElementById('pageTitle').innerText + ". ";
+                textToRead += document.getElementById('typewriterText1').innerText + " ";
+                textToRead += document.getElementById('typewriterText2').innerText + " ";
+            } else {
+                textToRead += document.getElementById('heroTitle').innerText + ". ";
+                textToRead += document.getElementById('heroSub').innerText + ". ";
+                textToRead += document.getElementById('secTitleKnowledge').innerText + ". ";
+                textToRead += document.getElementById('q1_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('q2_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('q3_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('q4_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('q5_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('q6_card').innerText.replace(/<br>/g, " ") + ". ";
+                textToRead += document.getElementById('secTitleAbout').innerText + ". ";
+                let aboutLines = document.querySelectorAll('.info-content p');
+                aboutLines.forEach(p => textToRead += p.innerText + ". ");
+            }
+
+            let utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = currentLang === 'BN' ? 'bn-IN' : 'en-US'; 
+            utterance.rate = 0.9; 
+            
+            utterance.onend = () => { syncButtons("📢"); };
+            utterance.onerror = () => { syncButtons("📢"); };
+
+            synth.speak(utterance);
+        }
+
+        /* 8. Galaxy Stars Canvas Animation (Slow Fall) */
+        const starCanvas = document.getElementById('starsCanvas');
+        const sCtx = starCanvas.getContext('2d');
+        let stars = [];
+
+        window.addEventListener('resize', () => {
+            starCanvas.width = window.innerWidth;
+            starCanvas.height = window.innerHeight;
+        });
+
+        function initStars() {
+            starCanvas.width = window.innerWidth;
+            starCanvas.height = window.innerHeight;
+            for (let i = 0; i < 150; i++) {
+                stars.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    radius: Math.random() * 1.5,
+                    dy: Math.random() * 0.5 + 0.2
+                });
+            }
+        }
+
+        function animateStars() {
+            requestAnimationFrame(animateStars);
+            if (document.body.classList.contains('day-mode')) {
+                sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+                return;
+            }
+            sCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+            sCtx.fillStyle = "rgba(255, 255, 255, 0.8)";
+
+            stars.forEach(star => {
+                sCtx.beginPath();
+                sCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                sCtx.fill();
+                star.y += star.dy;
+                if (star.y > starCanvas.height) {
+                    star.y = 0;
+                    star.x = Math.random() * starCanvas.width;
+                }
+            });
+        }
+
+        /* 9. Interactive 3D Card Hover Effects */
+        function init3DTiltCards() {
+            const interactiveCards = document.querySelectorAll('.question-card, .link-card');
+            interactiveCards.forEach(card => {
+                function applyTilt(clientX, clientY) {
+                    const rect = card.getBoundingClientRect();
+                    const x = clientX - rect.left;
+                    const y = clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -12; 
+                    const rotateY = ((x - centerX) / centerX) * 12;
+
+                    const isDay = document.body.classList.contains('day-mode');
+                    let glowColor1 = isDay ? 'rgba(255, 153, 51, 0.45)' : 'rgba(0, 242, 254, 0.45)';
+                    let glowColor2 = isDay ? 'rgba(19, 136, 8, 0.45)' : 'rgba(255, 0, 255, 0.25)';
+                    
+                    card.style.transition = 'none'; 
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+                    card.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2}px 30px ${glowColor1}, ${rotateY}px ${-rotateX}px 30px ${glowColor2}`;
+                }
+
+                function resetTilt() {
+                    card.style.transition = 'transform 0.5s ease, box-shadow 0.5s ease';
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    card.style.boxShadow = '';
+                }
+
+                card.addEventListener('mousemove', (e) => applyTilt(e.clientX, e.clientY));
+                card.addEventListener('mouseleave', resetTilt);
+                card.addEventListener('touchmove', (e) => applyTilt(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+                card.addEventListener('touchend', resetTilt);
+            });
+        }
+
+        /* 10. Interactive Cursor Particle Trail (Prism Splash & Cosmic Glow) */
+        const trailCanvas = document.getElementById('trailCanvas');
+        const tCtx = trailCanvas.getContext('2d');
+        let trailParticles = [];
+        let hue = 0; 
+
+        window.addEventListener('resize', () => {
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor(x, y, isDay) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2; 
+                this.speedX = Math.random() * 3 - 1.5; 
+                this.speedY = Math.random() * 3 - 1.5; 
+                
+                if (isDay) {
+                    this.color = `hsl(${hue}, 100%, 50%)`; 
+                } else {
+                    const neonColors = ['#00f2fe', '#4facfe', '#f093fb', '#f5576c'];
+                    this.color = neonColors[Math.floor(Math.random() * neonColors.length)];
+                }
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.15;
+            }
+            
+            draw() {
+                tCtx.fillStyle = this.color;
+                tCtx.beginPath();
+                tCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                tCtx.fill();
+                tCtx.shadowBlur = 10;
+                tCtx.shadowColor = this.color;
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < trailParticles.length; i++) {
+                trailParticles[i].update();
+                trailParticles[i].draw();
+                if (trailParticles[i].size <= 0.2) {
+                    trailParticles.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            const isDay = document.body.classList.contains('day-mode');
+            for (let i = 0; i < 4; i++) { 
+                trailParticles.push(new Particle(e.x, e.y, isDay));
+            }
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            const isDay = document.body.classList.contains('day-mode');
+            for (let i = 0; i < 4; i++) {
+                trailParticles.push(new Particle(e.touches[0].clientX, e.touches[0].clientY, isDay));
+            }
+        }, { passive: true });
+
+        function animateTrail() {
+            tCtx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+            handleParticles();
+            hue += 5; 
+            requestAnimationFrame(animateTrail);
+        }
+
+        /* Initialize Everything on Page Load */
+        window.onload = () => {
+            detectEnvironment();
+            startSlideshow();
+            resizeCanvas();
+            drawAtom3D();
+            
+            initStars();
+            animateStars();
+            
+            init3DTiltCards(); 
+            
+            trailCanvas.width = window.innerWidth;
+            trailCanvas.height = window.innerHeight;
+            animateTrail();
+        };
+    </script>
+</body>
+</html>
